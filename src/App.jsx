@@ -1,6 +1,7 @@
 import Webcam from "react-webcam"
 import { Layout, Menu } from "antd"
 import { Route, Routes, useNavigate } from "react-router-dom"
+import { useGameStore } from "./store"
 import TestCenter from "./TestCenter"
 
 const{Sider,Header,Content} = Layout  
@@ -8,6 +9,8 @@ const{Sider,Header,Content} = Layout
 
 function App() {
   const navigate = useNavigate()
+  const {score} = useGameStore()
+  
 
   return (
     <Layout style={
@@ -47,7 +50,9 @@ function App() {
             background: '#fff', padding: '0 20px', fontSize: '20px', fontWeight: 'bold'
           }
         }>
-          AI Concentration Test
+          <span>AI Concentration Test   |   </span>
+          <span>💯  Your Score：{ score }</span>
+
         </Header>
 
         <Content style={{

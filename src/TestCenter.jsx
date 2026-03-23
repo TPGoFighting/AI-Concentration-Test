@@ -1,14 +1,16 @@
-  import { useState, useRef,useEffect } from "react"
+  import { useState,useRef,useEffect } from "react"
 import Webcam from "react-webcam"
 import { Layout, Menu } from "antd"
-import { Route, Routes} from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
+import { useGameStore } from "./store"
 
 const{Sider,Header,Content} = Layout  
-
 const { Hands } = window;
 const { Camera } = window;
 
 export default function TestCenter() {
+    const { increaseScore } = useGameStore()
+
     // const navigate = useNavigate()
     const videoConstraints = {
         width: 1920,
@@ -86,8 +88,11 @@ export default function TestCenter() {
                     indexY < boxRef.current.y + 50 &&
                     indexY > boxRef.current.y - 50
                 ) {
-                    setBoxposition({ x: indexX, y: indexY })
-                    boxRef.current = { x: indexX, y: indexY }
+                    increaseScore()
+                    const newX = Math.random()*video.videoWidth
+                    const newY = Math.random()*video.videoHeight
+                    setBoxposition({ x: newX, y: newY })
+                    boxRef.current = { x: newX, y: newY }
                 }
             }
               
@@ -238,15 +243,15 @@ export default function TestCenter() {
     // }
 
   return (
-      <div>
-          <div style={{
-              position: "absolute",
-              height: "100px",
-              width: "100px",
-        top: boxPosition.y-50+"px",
-        left:boxPosition.x-50+"px"
-          }}></div>
-          
+      
+        //   <div style={{
+        //       position: "absolute",
+        //       height: "100px",
+        //       width: "100px",
+        // top: boxPosition.y-50+"px",
+        // left:boxPosition.x-50+"px"
+        //   }}></div>
+          <div>
       <Webcam ref={webcamRef}
         videoConstraints={videoConstraints}
         style={
